@@ -1,104 +1,95 @@
 #include "lista_enlazada.h"
+//* -------------------------------------------------
+//*     IMPLEMENTAMOS LA LÓGICA DE NUESTRA LISTA
+//* -------------------------------------------------
 
 // Insertar al inicio
 void Lista::insertarInicio(int valor) {
-    Nodo* nuevo = new Nodo(valor);
-    nuevo->sig = cabeza; //direccion de la cabeza
-    cabeza = nuevo; //cabeza apunta a la direccion de nuevo
-    tam++;   // aumentar tamaño
+    Nodo *nuevo = new Nodo(valor);
+    nuevo->sig = cabeza;  // direccion de la cabeza
+    cabeza = nuevo;       // cabeza apunta a la direccion de nuevo
+    tam++;                // aumentar tamaño
 }
 
-
-int Lista::retirarDeInicio(){
-    
-        if (cabeza==nullptr) {
-            cout<<"Lista vacia"<<endl;
-            return -1;
-        } 
-
-        else  {
-         
-            int valor;
-            Nodo *temp=cabeza;
-            valor=temp->dato;
-            cabeza=cabeza->sig;
-            delete  temp;
-            tam--;
-            return  valor;
-            }
-        
-
+int Lista::retirarDeInicio() {
+    if (cabeza == nullptr) {
+        cout << "Lista vacia" << endl;
+        return -1;
+    } else {
+        int valor;
+        Nodo *temp = cabeza;
+        valor = temp->dato;
+        cabeza = cabeza->sig;
+        delete temp;
+        tam--;
+        return valor;
+    }
 }
 
-void Lista::AdicionarEnOrden(int dato){
-
+void Lista::AdicionarEnOrden(int dato) {
     Nodo *nuevo = new Nodo(dato);
-    if(cabeza==nullptr || dato<cabeza->dato){
-        nuevo->sig=cabeza;
-        cabeza=nuevo;
+    if (cabeza == nullptr || dato < cabeza->dato) {
+        nuevo->sig = cabeza;
+        cabeza = nuevo;
         tam++;
         return;
     }
-    Nodo *temp=cabeza;
-    while(temp->sig!=nullptr && temp->sig->dato<dato){
-        temp=temp->sig;
+
+    Nodo *temp = cabeza;
+    while (temp->sig != nullptr && temp->sig->dato < dato) {
+        temp = temp->sig;
     }
-    nuevo->sig=temp->sig;
-    temp->sig=nuevo;
+    nuevo->sig = temp->sig;
+    temp->sig = nuevo;
     tam++;
-
-
 }
 
-void Lista::Concatenar(Lista* b){
-    Nodo *temp =cabeza;
-    while(temp->sig!=nullptr){
-        temp=temp->sig;
+void Lista::Concatenar(Lista *b) {
+    Nodo *temp = cabeza;
+    while (temp->sig != nullptr) {
+        temp = temp->sig;
     }
-    temp->sig=b->cabeza;
+    temp->sig = b->cabeza;
 }
 
-
-void Lista::Invertir(){
+void Lista::Invertir() {
     Lista lista_inv;
-    Nodo* temp = cabeza;
-    while(temp->sig){
+    Nodo *temp = cabeza;
+    while (temp->sig) {
         lista_inv.insertarInicio(temp->dato);
-        temp=temp->sig;
+        temp = temp->sig;
     }
     lista_inv.insertarInicio(temp->dato);
     lista_inv.imprimir();
 }
 
-
-
-
 // Insertar al final
 void Lista::insertarFinal(int valor) {
-    Nodo* nuevo = new Nodo(valor);
+    Nodo *nuevo = new Nodo(valor);
     if (!cabeza) {
         cabeza = nuevo;
-        tam++;   // aumentar tamaño
+        tam++;  // aumentar tamaño
         return;
     }
-    Nodo* temp = cabeza;
-    while (temp->sig) 
+    Nodo *temp = cabeza;
+    while (temp->sig)
         temp = temp->sig;
     temp->sig = nuevo;
-    tam++;   // aumentar tamaño
+    tam++;  // aumentar tamaño
 }
 
 // Eliminar primera ocurrencia
 void Lista::eliminar(int valor) {
-    Nodo* temp = cabeza;
-    Nodo* anterior = nullptr;
+    Nodo *temp = cabeza;
+    Nodo *anterior = nullptr;
 
     while (temp && temp->dato != valor) {
         anterior = temp;
         temp = temp->sig;
     }
 
-    if (!temp) return; // no encontrado
+    if (!temp)
+        return;  // no encontrado
 
     if (!anterior) {
         cabeza = temp->sig;
@@ -106,14 +97,14 @@ void Lista::eliminar(int valor) {
         anterior->sig = temp->sig;
     }
     delete temp;
-    tam--;   // disminuir tamaño
+    tam--;  // disminuir tamaño
 }
 
 // Buscar un valor
-Nodo* Lista::buscar(int valor) {
-    Nodo* temp = cabeza;
+Nodo *Lista::buscar(int valor) {
+    Nodo *temp = cabeza;
     while (temp) {
-        if (temp->dato == valor) 
+        if (temp->dato == valor)
             return temp;
         temp = temp->sig;
     }
@@ -122,7 +113,7 @@ Nodo* Lista::buscar(int valor) {
 
 // Imprimir la lista
 void Lista::imprimir() {
-    Nodo* temp = cabeza;
+    Nodo *temp = cabeza;
     cout << "Lista (" << tam << " nodos): ";
     while (temp) {
         cout << temp->dato << " -> ";
@@ -133,14 +124,14 @@ void Lista::imprimir() {
 
 // Liberar memoria, eliminar la lista
 void Lista::liberar() {
-    Nodo* temp = cabeza;
+    Nodo *temp = cabeza;
     while (temp) {
-        Nodo* siguiente = temp->sig;
+        Nodo *siguiente = temp->sig;
         delete temp;
         temp = siguiente;
     }
     cabeza = nullptr;
-    tam = 0;   // reiniciar tamaño
+    tam = 0;  // reiniciar tamaño
 }
 
 // Obtener tamaño
@@ -159,8 +150,8 @@ void Lista::AdicionaAPosicion(int dato, int posicion) {
         return;
     }
 
-    Nodo* nuevo = new Nodo(dato);
-    Nodo* temp = cabeza;
+    Nodo *nuevo = new Nodo(dato);
+    Nodo *temp = cabeza;
     int indice = 0;
 
     // avanzar hasta el nodo anterior a la posición deseada
@@ -172,7 +163,7 @@ void Lista::AdicionaAPosicion(int dato, int posicion) {
     // insertar en la posición
     nuevo->sig = temp->sig;
     temp->sig = nuevo;
-    tam++;   // aumentar tamaño
+    tam++;  // aumentar tamaño
 }
 
 // Retirar nodo de una posición específica, comienza en 0
@@ -184,15 +175,15 @@ int Lista::RetiraDePosicion(int posicion) {
 
     // Caso: eliminar en la cabeza
     if (posicion <= 0) {
-        Nodo* temp = cabeza;
+        Nodo *temp = cabeza;
         int valor = temp->dato;
         cabeza = cabeza->sig;
         delete temp;
-        tam--;   // disminuir tamaño
+        tam--;  // disminuir tamaño
         return valor;
     }
 
-    Nodo* temp = cabeza;
+    Nodo *temp = cabeza;
     int indice = 0;
 
     // Avanzar hasta el nodo anterior a la posición deseada
@@ -208,13 +199,13 @@ int Lista::RetiraDePosicion(int posicion) {
         return -1;
     }
 
-    Nodo* nodoEliminar = temp->sig;
+    Nodo *nodoEliminar = temp->sig;
     int valor = nodoEliminar->dato;
 
     // Saltar el nodo a eliminar
     temp->sig = nodoEliminar->sig;
     delete nodoEliminar;
-    tam--;   // disminuir tamaño
+    tam--;  // disminuir tamaño
 
     return valor;
 }

@@ -1,27 +1,32 @@
 #ifndef LISTA_ENLAZADA_H
 #define LISTA_ENLAZADA_H
+//* ---------------------------------
+//*     DEFINIMOS NUESTRA LISTA
+//* ---------------------------------
 
 #include <iostream>
 using namespace std;
 
-// Nodo con constructor
+// Crear un Nodo es equivalente a añadir un elemento a la lista enlazada
 struct Nodo {
     int dato;
     Nodo* sig;
 
+    // constructor
     Nodo(int v) {
         dato = v;
         sig = nullptr;
     }
 };
 
-// Lista enlazada simple
+// Las listas enlazadas son un conjunto(o cadena) de nodos, y se recorren desde el nodo header
 struct Lista {
-    Nodo* cabeza; //almacena la direccion de tipo nodo
-    int tam;
+    Nodo* cabeza;  // direccion del primer nodo
+    int tam;       // cantidad de elementos de la lista
 
     // Constructor
     Lista() {
+        // Cuando creamos nuestra lista, el primer nodo aún no existe
         cabeza = nullptr;
         tam = 0;
     }
@@ -36,7 +41,7 @@ struct Lista {
     void liberar();
     int tamano();
     void AdicionaAPosicion(int dato, int posicion);
-    int RetiraDePosicion(int posicion); 
+    int RetiraDePosicion(int posicion);
     void AdicionarEnOrden(int dato);
     void Concatenar(Lista* b);
     void Invertir();
