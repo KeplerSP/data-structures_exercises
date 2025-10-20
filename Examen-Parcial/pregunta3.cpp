@@ -49,13 +49,13 @@ void Lista::insertInicio(int x) {
         // insertamos el primer nodo de la lista
         header->next = newNodo;
         tail = newNodo;  // tail = head porque solo hay un nodo
-        tam += 1;
+        ++tam;
         return;
     }
     // agregamos el nuevo nodo al inicio de la lista
     newNodo->next = header->next;
     header->next = newNodo;
-    tam += 1;
+    ++tam;
 }
 
 void Lista::insertarFinal(int x) {
@@ -67,6 +67,7 @@ void Lista::insertarFinal(int x) {
     Nodo* newNodo = new Nodo(x);
     tail->next = newNodo;
     tail = newNodo;
+    ++tam;
 }
 
 // Funcion para crear una lista como resultado de concatenar 2 listas ordenadas
@@ -75,29 +76,29 @@ Lista* concatList(Lista* lista1, Lista* lista2) {
     Nodo* aux2 = lista2->header->next;
 
     Lista* lista3 = new Lista();
-    Nodo* t3 = lista3->header;
 
     // Si se apunta a un nullptr significa que una lista se quedo sin elementos
     while (aux1 && aux2) {
         if (aux1->value < aux2->value) {
-            t3->next = aux1;
-            t3 = aux1;
+            lista3->insertarFinal(aux1->value);
             aux1 = aux1->next;
         } else {
-            t3->next = aux2;
-            t3 = aux2;
+            lista3->insertarFinal(aux2->value);
             aux2 = aux2->next;
         }
     }
 
     // Verificamos qué lista se quedo sin elementos
-    if (aux1) {
+    while (aux1) {
         // significa que aux2 se quedo sin elementos
-        t3->next = aux1;
+        lista3->insertarFinal(aux1->value);
+        aux1 = aux1->next;
     }
-    if (aux2) {
+
+    while (aux2) {
         // significa que aux1 se quedo sin elementos
-        t3->next = aux2;
+        lista3->insertarFinal(aux2->value);
+        aux2 = aux2->next;
     }
 
     return lista3;
@@ -114,11 +115,13 @@ void Lista::appendList(Lista* l2) {
             t->next = p1;
             t = t->next;
             p1 = p1->next;
+            ++tam;
         } else {
             // p2 > p1
             t->next = p2;
             t = t->next;
             p2 = p2->next;
+            ++tam;
         }
     }
 
@@ -140,7 +143,6 @@ void Lista::appendList(Lista* l2) {
     }
 }
 
-
 int main() {
     Lista lista;
     lista.insertInicio(125);
@@ -158,10 +160,12 @@ int main() {
     lista2.insertInicio(4);
     lista2.insertInicio(3);
 
-    // Lista* lista3 = concatList(&lista, &lista2);
+    cout << "\nNueva lista 3: ";
+    Lista* lista3 = concatList(&lista, &lista2);
+    lista3->imprimir();
+    
+    cout << "\nLista concatenada: " << endl;
     lista.appendList(&lista2);
-
-    cout << "\nLISTA FINAL " << endl;
     lista.imprimir();
 
     return 1;
